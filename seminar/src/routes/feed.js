@@ -54,6 +54,22 @@ class FeedDB {
             return false;
         }
     }
+
+    editItem = ( item ) => {
+      const {id, title, content} = item;
+      let BItemEdited = false;
+
+      this.#LDataDB = this.#LDataDB.map(( value ) => {
+        if (value.id === id) {
+          BItemEdited = true;
+          return {id: id, title: title, content: content};
+        } else {
+          return value;
+        }
+      });
+      console.log(this.#LDataDB);
+      return BItemEdited;
+    }
 }
 
 const feedDBInst = FeedDB.getInst();
@@ -90,6 +106,17 @@ router.post('/deleteFeed', async (req, res) => {
     } catch (e) {
         return res.status(500).json({ error: e });
     }
-})
+});
+
+router.post('/editFeed', (req, res) => {
+  try {
+      const { id, title, content } = req.body;
+      const editResult = feedDBInst.editItem({id: parseInt(id), title, content});
+      if (!editResult) return res.status(500).json({ error: "No item edited" });
+      else return res.status(200).json({ isOK: true });
+  } catch (e) {
+      return res.status(500).json({ error: e });
+  }
+});
 
 module.exports = router;
