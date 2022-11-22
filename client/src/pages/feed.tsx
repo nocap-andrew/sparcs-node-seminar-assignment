@@ -3,6 +3,8 @@ import axios from "axios";
 import { SAPIBase } from "../tools/api";
 import Header from "../components/header";
 import "./css/feed.css";
+import { idText } from "typescript";
+import EditPost from "./edit_post";
 
 interface IAPIResponse  { _id: string, title: string, content: string, itemViewCnt: number }
 
